@@ -1,0 +1,25 @@
+version: '2.1'
+
+services:
+  dwspectrum:
+    image: dwspectrum_docker
+    container_name: dwspectrum_test
+    hostname: dwspectrum_test_host
+    domainname: home.insanegenius.net
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Americas/Los_Angeles
+    build: .
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - ./.mount/media:/config/DW Spectrum Media
+      - ./.mount/config/:/opt/digitalwatchdog/mediaserver/var
+    tmpfs:
+      - /run
+      - /run/lock
+      - /tmp      
+    restart: unless-stopped
+    network_mode: host
+    ports:
+      - 7001:7001
