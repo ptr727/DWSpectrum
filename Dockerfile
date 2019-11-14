@@ -1,18 +1,10 @@
-# Copied from:
-# https://bitbucket.org/networkoptix/nx_open_integrations/src/default/docker/
-
-# FROM ubuntu
-# FROM ubuntu:xenial
 # FROM ubuntu:bionic
-# FROM ubuntu:latest
 FROM lsiobase/ubuntu:bionic
 
 LABEL name="DWSpectrum" \
     version="4.0.0.29990" \
     description="DW Spectrum IPVMS Docker" \
     maintainer="Pieter Viljoen <ptr727@users.noreply.github.com>"
-
-#USER <UID>:<GID>
 
 # https://dwspectrum.digital-watchdog.com/download/linux
 # https://nxvms.com/download/linux
@@ -30,8 +22,8 @@ RUN apt-get update \
     && apt-get install -y wget dbus systemd lsb-release binutils \
     && wget -nv -O ./mediaserver.deb ${downloadurl} \
     && apt-get install -y ./mediaserver.deb \
-    && apt-get clean \
     && rm -rf ./mediaserver.deb \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /opt/${appname}/mediaserver/var \
     && find /etc/systemd -name '*.timer' | xargs rm -v \

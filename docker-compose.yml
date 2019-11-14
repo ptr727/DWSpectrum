@@ -1,11 +1,11 @@
-version: '2.1'
+version: "3.7"
 
 services:
   dwspectrum:
-    image: dwspectrum_docker
-    container_name: dwspectrum_test
-    hostname: dwspectrum_test_host
-    domainname: home.insanegenius.net
+    image: dwspectrum
+    container_name: dwspectrum-test-container
+    hostname: dwspectrum-test-host
+    domainname: foo.bar
     environment:
       - PUID=1000
       - PGID=1000
@@ -18,7 +18,7 @@ services:
     tmpfs:
       - /run
       - /run/lock
-      - /tmp      
+      - /tmp
     restart: unless-stopped
     network_mode: host
     ports:
