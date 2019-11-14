@@ -74,6 +74,6 @@ It is a best practice to not run as root.
 
 ## TODO
 
-- Work around systemd.
+- Work around systemd, see [here](https://github.com/thehomerepot/nxwitness/blob/master/Dockerfile) for example.
   - `wget -O mediaserver.deb "https://digital-watchdog.com/forcedown?file_path=_gendownloads/70b537f9-c2ae-4d5b-9ee1-519003049542/&file_name=dwspectrum-server-4.0.0.29990-linux64.deb&file=OGR6MElZbXpxWEs2TXU1cHpKYXR1U1R0THN1THpGdzlyb3QveE95dHhCTT0="`
   - `dpkg-deb -x ./mediaserver.deb ./mediaserver`
