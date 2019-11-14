@@ -15,8 +15,8 @@ ENV downloadurl="https://digital-watchdog.com/forcedown?file_path=_gendownloads/
     container=docker \
     DEBIAN_FRONTEND=noninteractive
 
-STOPSIGNAL SIGRTMIN+3
-ENTRYPOINT ["/sbin/init", "--log-target=journal"]
+#STOPSIGNAL SIGRTMIN+3
+#ENTRYPOINT ["/sbin/init", "--log-target=journal"]
 
 RUN apt-get update \
     && apt-get install -y wget dbus systemd lsb-release binutils \
@@ -26,7 +26,7 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /opt/${appname}/mediaserver/var \
-    && find /etc/systemd -name '*.timer' | xargs rm -v \
+    #&& find /etc/systemd -name '*.timer' | xargs rm -v \
     && systemctl set-default multi-user.target
 
 EXPOSE 7001

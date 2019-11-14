@@ -71,3 +71,9 @@ It is a best practice to not run as root.
 
 - Using the lsiobase/ubuntu:xenial base image results in an [systemd-detect-virt error](https://github.com/systemd/systemd/issues/8111).
 - Using the lsiobase images allows us to specify PUID, GUID, and TZ environment variables, ideal when using UnRaid, and not running as root.
+
+## TODO
+
+- Work around systemd.
+  - `wget -O mediaserver.deb "https://digital-watchdog.com/forcedown?file_path=_gendownloads/70b537f9-c2ae-4d5b-9ee1-519003049542/&file_name=dwspectrum-server-4.0.0.29990-linux64.deb&file=OGR6MElZbXpxWEs2TXU1cHpKYXR1U1R0THN1THpGdzlyb3QveE95dHhCTT0="`
+  - `dpkg-deb -x ./mediaserver.deb ./mediaserver`

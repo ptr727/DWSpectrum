@@ -1,0 +1,13 @@
+version=4.0.0.29990
+customization=digitalwatchdog
+cloudHost=dwspectrum.digital-watchdog.com
+cloudGroup=prod
+arch=x64
+platform=linux
+platformModification=ubuntu
+changeSet=6341a1f4be75
+branch=vms_4.0_release
+beta=false
+brand=dwspectrum
+protoVersion=4002
+metaVersion=
