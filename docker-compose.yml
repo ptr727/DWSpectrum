@@ -10,6 +10,8 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Americas/Los_Angeles
+    #user: $UID:$GID
+    #user: 1000:1000
     build: .
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
