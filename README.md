@@ -2,7 +2,7 @@
 
 [DW Spectrum IPVMS](https://digital-watchdog.com/productdetail/DW-Spectrum-IPVMS/) is the US version of [Network Optix Nx Witness VMS](https://www.networkoptix.com/nx-witness/).  
 The Docker configuration is based on the [NetworkOptix Docker](https://bitbucket.org/networkoptix/nx_open_integrations/src/default/docker/) project.  
-Inspiration was taken from [The Home Repot Docker](hhttps://github.com/thehomerepot/dwspectrum) project.  
+Inspiration was taken from [The Home Repot Docker](https://github.com/thehomerepot/dwspectrum) project.  
 Using [LinuxServer.io Ubuntu:Bionic](https://hub.docker.com/r/lsiobase/ubuntu) base image.  
 
 ## License
