@@ -19,7 +19,7 @@ Code at [GitHub](https://github.com/ptr727/DWSpectrum)
 
 ### Docker Run Example
 
-```dockerfile
+```shell
 docker run -d \
 --name=dwspectrum \
 --restart=unless-stopped \
