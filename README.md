@@ -1,9 +1,8 @@
 # DW Spectrum IPVMS Docker
 
-[DW Spectrum IPVMS](https://digital-watchdog.com/productdetail/DW-Spectrum-IPVMS/) is the US version of [Network Optix Nx Witness VMS](https://www.networkoptix.com/nx-witness/).  
-The Docker configuration is based on the [NetworkOptix Docker](https://bitbucket.org/networkoptix/nx_open_integrations/src/default/docker/) project.  
-Inspiration was taken from [The Home Repot Docker](https://github.com/thehomerepot/dwspectrum) project.  
-Using [LinuxServer.io Ubuntu:Bionic](https://hub.docker.com/r/lsiobase/ubuntu) base image.  
+[DW Spectrum IPVMS](https://digital-watchdog.com/productdetail/DW-Spectrum-IPVMS/) is the US branded version of [Network Optix Nx Witness VMS](https://www.networkoptix.com/nx-witness/).  
+The docker configuration is based on the [NetworkOptix Docker](https://bitbucket.org/networkoptix/nx_open_integrations/src/default/docker/) project, using an Ubuntu base image, running as systemd.  
+An [alternate version](https://github.com/ptr727/DWSpectrum-LSIO) is based on a LinuxServer base image.
 
 ## License
 
@@ -11,9 +10,9 @@ Using [LinuxServer.io Ubuntu:Bionic](https://hub.docker.com/r/lsiobase/ubuntu) b
 
 ## Build Status
 
-![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/ptr727/DWSpectrum)
-![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/ptr727/DWSpectrum)  
-Pull from [Docker Hub](https://hub.docker.com/r/ptr727/DWSpectrum)  
+![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/ptr727/dwspectrum)
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/ptr727/dwspectrum)  
+Pull from [Docker Hub](https://hub.docker.com/r/ptr727/dwspectrum)  
 Code at [GitHub](https://github.com/ptr727/DWSpectrum)
 
 ## Usage
@@ -25,9 +24,7 @@ docker run -d \
 --name=dwspectrum \
 --restart=unless-stopped \
 --net=host \
--e PUID=1000 -e PGID=1000 \
--e TZ=Americas/Los_Angeles \
--v /appdata/dwspectrum:/config \
+-v /appdata/dwspectrum:/config/DW Spectrum Media \
 -v /media/archive:/archive \
 ptr727/dwspectrum
 ```
@@ -35,18 +32,13 @@ ptr727/dwspectrum
 ### Docker Compose Example
 
 ```yaml
-version: "3.7"
-
 services:
   dwspectrum:
-    image: dwspectrum_docker
-    container_name: dwspectrum_test
-    hostname: dwspectrum_test_host
-    domainname: home.insanegenius.net
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Americas/Los_Angeles
+    image: ptr727/dwspectrum
+    container_name: dwspectrum-test-container
+    hostname: dwspectrum-test-host
+    domainname: foo.net
+    user: 1000:1000
     build: .
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
@@ -62,18 +54,13 @@ services:
       - 7001:7001
 ```
 
-## User and Group Identifiers
-
-Use a UID and GUID that has rights on the the mapped data volumes. See the [LSIO docs](https://docs.linuxserver.io/general/understanding-puid-and-pgid) for more details.  
-It is a best practice to not run as root.
-
 ## Notes
 
-- Using the lsiobase/ubuntu:xenial base image results in an [systemd-detect-virt error](https://github.com/systemd/systemd/issues/8111).
-- Using the lsiobase images allows us to specify PUID, GUID, and TZ environment variables, ideal when using UnRaid, and not running as root.
+- The camera licenses are tied to hardware information, and this does not work well in container environments where the hardware may change.  
+- The NxWitness docker setup uses systemd, which as far as I researched, and I am no expert in this specific field, is [possible](https://developers.redhat.com/blog/2019/04/24/how-to-run-systemd-in-a-container/), but not recommended.
 
 ## TODO
 
-- Work around systemd, see [here](https://github.com/thehomerepot/nxwitness/blob/master/Dockerfile) for example.
-  - `wget -O mediaserver.deb "https://digital-watchdog.com/forcedown?file_path=_gendownloads/70b537f9-c2ae-4d5b-9ee1-519003049542/&file_name=dwspectrum-server-4.0.0.29990-linux64.deb&file=OGR6MElZbXpxWEs2TXU1cHpKYXR1U1R0THN1THpGdzlyb3QveE95dHhCTT0="`
-  - `dpkg-deb -x ./mediaserver.deb ./mediaserver`
+- Automatically detect when new releases are published, and automatically update the container. It would really help if NxWitness were to publish a latest link in a generic form, or on a page making link parsing easy. Today we have to look at the details of the [NxWitness](https://nxvms.com/download/linux) or [DWSpectrum](https://dwspectrum.digital-watchdog.com/download/linux) cloud pages.
+- [Convince](https://support.networkoptix.com/hc/en-us/articles/360037973573-How-to-run-Nx-Server-in-Docker) NxWitness to publish always up to date docker images, that allow specifying the user account to run under, and with licenses tied to the cloud account, so that we would not have to build and publish our own containers, and deal with hardware changes invalidating the camera licenses.
+- Fix docker run example.
