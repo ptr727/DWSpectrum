@@ -21,12 +21,16 @@ Code at [GitHub](https://github.com/ptr727/DWSpectrum)
 
 ```shell
 docker run -d \
---name=dwspectrum \
---restart=unless-stopped \
---net=host \
--v /appdata/dwspectrum:/config/DW Spectrum Media \
--v /media/archive:/archive \
-ptr727/dwspectrum
+  --name=dwspectrum-test-container \
+  --restart=unless-stopped \
+  --network=host \
+  --tmpfs /run \
+  --tmpfs /run/lock \
+  --tmpfs /tmp \
+  -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
+  -v "/.mount/media:/config/DW Spectrum Media" \
+  -v /.mount/config:/opt/digitalwatchdog/mediaserver/var \
+  ptr727/dwspectrum
 ```
 
 ### Docker Compose Example
@@ -38,7 +42,6 @@ services:
     container_name: dwspectrum-test-container
     hostname: dwspectrum-test-host
     domainname: foo.net
-    user: 1000:1000
     build: .
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
@@ -63,4 +66,4 @@ services:
 
 - Automatically detect when new releases are published, and automatically update the container. It would really help if NxWitness were to publish a latest link in a generic form, or on a page making link parsing easy. Today we have to look at the details of the [NxWitness](https://nxvms.com/download/linux) or [DWSpectrum](https://dwspectrum.digital-watchdog.com/download/linux) cloud pages.
 - [Convince](https://support.networkoptix.com/hc/en-us/articles/360037973573-How-to-run-Nx-Server-in-Docker) NxWitness to publish always up to date docker images, that allow specifying the user account to run under, and with licenses tied to the cloud account, so that we would not have to build and publish our own containers, and deal with hardware changes invalidating the camera licenses.
-- Fix docker run example.
+- Try to get `user: UID:GID` working, i.e. do not run as root.

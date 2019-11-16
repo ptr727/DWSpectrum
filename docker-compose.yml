@@ -6,7 +6,7 @@ services:
     container_name: dwspectrum-test-container
     hostname: dwspectrum-test-host
     domainname: foo.net
-    user: 1000:1000
+    #user: 1000:1000
     build: .
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
