@@ -18,5 +18,7 @@ services:
       - /tmp
     restart: unless-stopped
     network_mode: host
-    ports:
-      - 7001:7001
+    # https://miniwebtool.com/mac-address-generator/
+    #mac_address: b7-48-d5-a6-d1-99
+    #ports:
+    #  - 7001:7001

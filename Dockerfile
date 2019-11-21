@@ -19,16 +19,30 @@ ENV downloadurl="https://digital-watchdog.com/forcedown?file_path=_gendownloads/
 # Prevent EULA and confirmation prompts in installers
     DEBIAN_FRONTEND=noninteractive
 
-# Docker file is based on https://bitbucket.org/networkoptix/nx_open_integrations/src/default/docker/Dockerfile
+# Docker file is based on: https://bitbucket.org/networkoptix/nx_open_integrations/src/default/docker/Dockerfile
+# Running systemd in a container: https://developers.redhat.com/blog/2019/04/24/how-to-run-systemd-in-a-container
+# TODO: Can we run systemd and use --user to run as non root?
 
+# Install dependencies
 RUN apt-get update \
-# Install wget so we can download the installer, and systemd for systemctl
-    && apt-get install -y wget systemd \
+    && apt-get install -y \
+# Install wget so we can download the installer
+        wget \
+# Install systemd to use systemctl
+        systemd \
+# Install gdb for crash handling (it is used but not included in the deb dependencies)
+        gdb \
+# Install binutils for patching cloud host (from nxwitness docker)
+        binutils \
+# Install lsb-release used as a part of install scripts inside the deb package (from nxwitness docker)
+        lsb-release \
+# Install nano and mc for making navigating the container easier
+        nano mc \
 # Download the DEB installer file    
     && wget -nv -O ./vms_server.deb ${downloadurl} \
-# I have no idea why the timers are being removed?
+# Why are the timers are being removed?
     && find /etc/systemd -name '*.timer' | xargs rm -v \
-# Set the systemctl run target
+# Set the systemd run target
     && systemctl set-default multi-user.target \
 # Install the DEB installer file
     && apt-get install -y ./vms_server.deb \
