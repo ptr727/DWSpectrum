@@ -11,7 +11,9 @@ ENV download_url="http://updates.networkoptix.com/digitalwatchdog/29990/linux/dw
 # systemd needs to know we are running in docker
     container=docker \
 # Prevent EULA and confirmation prompts in installers
-    DEBIAN_FRONTEND=noninteractive
+    DEBIAN_FRONTEND=noninteractive \
+# NxWitness or DWSpectrum
+    COMPANY_NAME="digitalwatchdog"
 
 LABEL name="DWSpectrum" \
     version=${download_version} \
@@ -42,7 +44,6 @@ RUN apt-get update \
 # Install the DEB installer file
     && apt-get install --yes \
         ./vms_server.deb \
-# Remap the config and media folders
 # Cleanup    
     && rm -rf ./vms_server.deb \
     && apt-get clean \
@@ -57,5 +58,7 @@ ENTRYPOINT ["/sbin/init", "--log-target=journal"]
 # Expose port 7001
 EXPOSE 7001
 
-# Create data volumes
-VOLUME /media /config
+# Create mapped volumes
+# The VMS appears to pick a random volume for media storage
+# We are not currently using /config
+VOLUME /media /opt/digitalwatchdog/mediaserver/var /opt/digitalwatchdog/mediaserver/etc

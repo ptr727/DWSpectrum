@@ -28,8 +28,9 @@ docker run -d \
   --tmpfs /run/lock \
   --tmpfs /tmp \
   -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
-  -v "/.mount/media:/config/DW Spectrum Media" \
-  -v /.mount/config:/opt/digitalwatchdog/mediaserver/var \
+  -v /.mount/media:/media \
+  -v /.mount/config/etc:/opt/digitalwatchdog/mediaserver/etc \
+  -v /.mount/config/var:/opt/digitalwatchdog/mediaserver/var \
   ptr727/dwspectrum
 ```
 
@@ -45,8 +46,9 @@ services:
     build: .
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - ./.mount/media:/config/DW Spectrum Media
-      - ./.mount/config/:/opt/digitalwatchdog/mediaserver/var
+      - ./.mount/media:/media
+      - ./.mount/config/etc:/opt/digitalwatchdog/mediaserver/etc
+      - ./.mount/config/var:/opt/digitalwatchdog/mediaserver/var
     tmpfs:
       - /run
       - /run/lock
@@ -70,4 +72,4 @@ services:
   - Use the cloud account for license enforcement, not the hardware that dynamically changes in Docker environments.
 - Figure out how to automatically detect when new [NxWitness](https://nxvms.com/download/linux) or [DWSpectrum](https://dwspectrum.digital-watchdog.com/download/linux) releases are published, and update the container. Possibly parsing the readme file for version information, and using a webhook to kick the build.
 - Figure out how to use `--no-install-recommends` to make the image smaller. Currently we get a `OCI runtime create failed` error if it is used, probably missing some required but unspecified dependencies.
-
+- Figure out how to create symbolic links to `/config` from `/opt/digitalwatchdog/mediaserver/` in the docker file, before the config directory is mounted.
