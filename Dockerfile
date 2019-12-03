@@ -42,6 +42,7 @@ RUN apt-get update \
 # Install the DEB installer file
     && apt-get install --yes \
         ./vms_server.deb \
+# Remap the config and media folders
 # Cleanup    
     && rm -rf ./vms_server.deb \
     && apt-get clean \
@@ -57,4 +58,4 @@ ENTRYPOINT ["/sbin/init", "--log-target=journal"]
 EXPOSE 7001
 
 # Create data volumes
-VOLUME /config /archive
+VOLUME /media /config

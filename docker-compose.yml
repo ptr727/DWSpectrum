@@ -10,8 +10,9 @@ services:
     build: .
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - ./.mount/media:/config/DW Spectrum Media
-      - ./.mount/config/:/opt/digitalwatchdog/mediaserver/var
+      - ./.mount/media:/media
+      - ./.mount/config/var/:/opt/digitalwatchdog/mediaserver/var
+      - ./.mount/config/etc/:/opt/digitalwatchdog/mediaserver/etc
     tmpfs:
       - /run
       - /run/lock
