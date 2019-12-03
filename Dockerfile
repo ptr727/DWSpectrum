@@ -1,31 +1,26 @@
-FROM ubuntu:bionic
+# Docker file is based on: https://bitbucket.org/networkoptix/nx_open_integrations/src/default/docker/Dockerfile
 
-LABEL name="DWSpectrum" \
-    version="4.0.0.29990" \
-    description="DW Spectrum IPVMS Docker" \
-    maintainer="Pieter Viljoen <ptr727@users.noreply.github.com>"
+# Use latest Ubuntu LTS version
+FROM ubuntu:latest
 
-# Latest versions are listed here:
+# Latest VMS versions are listed here:
 # https://dwspectrum.digital-watchdog.com/download/linux
 # https://nxvms.com/download/linux
-# Using DWSpectrum server v4.0.0.29990
-ENV downloadurl="https://digital-watchdog.com/forcedown?file_path=_gendownloads/70b537f9-c2ae-4d5b-9ee1-519003049542/&file_name=dwspectrum-server-4.0.0.29990-linux64.deb&file=OGR6MElZbXpxWEs2TXU1cHpKYXR1U1R0THN1THpGdzlyb3QveE95dHhCTT0=" \
-# The NxWitness and DwSpectrum apps are nearly identical, but the installer uses different folder names and different user accounts, complicating scripting
-    appname="digitalwatchdog" \
-# Note, I have not tested this docker setup with NxWitness
-    #appname="networkoptix" \
+ENV download_url="http://updates.networkoptix.com/digitalwatchdog/29990/linux/dwspectrum-server-4.0.0.29990-linux64.deb" \
+    download_version="4.0.0.29990" \
 # systemd needs to know we are running in docker
     container=docker \
 # Prevent EULA and confirmation prompts in installers
     DEBIAN_FRONTEND=noninteractive
 
-# Docker file is based on: https://bitbucket.org/networkoptix/nx_open_integrations/src/default/docker/Dockerfile
-# Running systemd in a container: https://developers.redhat.com/blog/2019/04/24/how-to-run-systemd-in-a-container
-# TODO: Can we run systemd and use --user to run as non root?
+LABEL name="DWSpectrum" \
+    version=${download_version} \
+    description="DW Spectrum IPVMS Docker" \
+    maintainer="Pieter Viljoen <ptr727@users.noreply.github.com>"
 
 # Install dependencies
 RUN apt-get update \
-    && apt-get install -y \
+    && apt-get install --yes \
 # Install wget so we can download the installer
         wget \
 # Install systemd to use systemctl
@@ -39,13 +34,14 @@ RUN apt-get update \
 # Install nano and mc for making navigating the container easier
         nano mc \
 # Download the DEB installer file    
-    && wget -nv -O ./vms_server.deb ${downloadurl} \
-# Why are the timers are being removed?
+    && wget -nv -O ./vms_server.deb ${download_url} \
+# Why are the timers are being removed in the Nx docker file?
     && find /etc/systemd -name '*.timer' | xargs rm -v \
 # Set the systemd run target
     && systemctl set-default multi-user.target \
 # Install the DEB installer file
-    && apt-get install -y ./vms_server.deb \
+    && apt-get install --yes \
+        ./vms_server.deb \
 # Cleanup    
     && rm -rf ./vms_server.deb \
     && apt-get clean \

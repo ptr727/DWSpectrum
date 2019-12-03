@@ -64,6 +64,10 @@ services:
 
 ## TODO
 
-- Automatically detect when new releases are published, and automatically update the container. It would really help if NxWitness were to publish a latest link in a generic form, or on a page making link parsing easy. Today we have to look at the details of the [NxWitness](https://nxvms.com/download/linux) or [DWSpectrum](https://dwspectrum.digital-watchdog.com/download/linux) cloud pages.
-- [Convince](https://support.networkoptix.com/hc/en-us/articles/360037973573-How-to-run-Nx-Server-in-Docker) NxWitness to publish always up to date docker images, that allow specifying the user account to run under, and with licenses tied to the cloud account, so that we would not have to build and publish our own containers, and deal with hardware changes invalidating the camera licenses.
-- Try to get `user: UID:GID` working, i.e. do not run as root.
+- [Convince](https://support.networkoptix.com/hc/en-us/articles/360037973573-How-to-run-Nx-Server-in-Docker) NxWitness to:
+  - Publish always up to date docker images to Docker Hub.
+  - Support running as non-root, allowing us to specify the user account to run under using `user: UID:GID`, such that file permissions match the mapped data volume permissions.
+  - Use the cloud account for license enforcement, not the hardware that dynamically changes in Docker environments.
+- Figure out how to automatically detect when new [NxWitness](https://nxvms.com/download/linux) or [DWSpectrum](https://dwspectrum.digital-watchdog.com/download/linux) releases are published, and update the container. Possibly parsing the readme file for version information, and using a webhook to kick the build.
+- Figure out how to use `--no-install-recommends` to make the image smaller. Currently we get a `OCI runtime create failed` error if it is used, probably missing some required but unspecified dependencies.
+
