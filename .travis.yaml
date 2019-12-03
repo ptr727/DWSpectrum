@@ -4,14 +4,14 @@ services:
 env:
   global:
     - IMAGE_NAME=ptr727/dwspectrum
-    - REGISTRY_USER=ptr727
+    #- REGISTRY_USER=ptr727
     # REGISTRY_PASS=...
-    - secret: "<something long>"
+    #- secret: "<something long>"
 
 before_script:
+  - docker pull "$IMAGE_NAME" || true
 script:
-  - docker build --tag "$IMAGE_NAME" .
-
+  - docker build --pull --cache-from "$IMAGE_NAME" --tag "$IMAGE_NAME" .
 after_script:
   - docker images
 
