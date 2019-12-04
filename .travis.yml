@@ -25,9 +25,6 @@ before_deploy:
   - docker login -u ${REGISTRY_USER} -p ${REGISTRY_PASS}
 deploy:
   provider: script
-  script: 
-    - echo Pushing ${IMAGE_NAME}:latest ${IMAGE_NAME}:${IMAGE_VERSION}
-    - docker push ${IMAGE_NAME}:latest
-    - docker push ${IMAGE_NAME}:${IMAGE_VERSION}
+  script: docker push ${IMAGE_NAME}:latest && docker push ${IMAGE_NAME}:${IMAGE_VERSION}
   on:
     branch: master
