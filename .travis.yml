@@ -12,10 +12,10 @@ env:
 before_script:
   - docker pull "${IMAGE_NAME}" || true
 script:
-  - docker build --pull --cache-from "${IMAGE_NAME}" \
-    --tag "${IMAGE_NAME}:latest" \
-    --tag "${IMAGE_NAME}:${IMAGE_VERSION}" \
-    --build-arg download_url=${download_url} \
+  - docker build --pull --cache-from "${IMAGE_NAME}"
+    --tag "${IMAGE_NAME}:latest"
+    --tag "${IMAGE_NAME}:${IMAGE_VERSION}"
+    --build-arg download_url=${download_url}
     --build-arg download_version=${download_version} .
 after_script:
   - docker images
