@@ -6,10 +6,11 @@ FROM ubuntu:latest
 # Latest VMS versions are listed here:
 # https://dwspectrum.digital-watchdog.com/download/linux
 # https://nxvms.com/download/linux
-ENV download_url="http://updates.networkoptix.com/digitalwatchdog/29990/linux/dwspectrum-server-4.0.0.29990-linux64.deb" \
-    download_version="4.0.0.29990" \
+ARG download_url="http://updates.networkoptix.com/digitalwatchdog/29990/linux/dwspectrum-server-4.0.0.29990-linux64.deb"
+ARG download_version="4.0.0.29990"
+
 # systemd needs to know we are running in docker
-    container=docker \
+ENV container=docker \
 # Prevent EULA and confirmation prompts in installers
     DEBIAN_FRONTEND=noninteractive \
 # NxWitness or DWSpectrum
