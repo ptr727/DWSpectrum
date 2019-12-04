@@ -18,6 +18,7 @@ ENV container=docker \
 
 LABEL name="DWSpectrum" \
     version=${download_version} \
+    download=${download_url} \
     description="DW Spectrum IPVMS Docker" \
     maintainer="Pieter Viljoen <ptr727@users.noreply.github.com>"
 
@@ -36,7 +37,8 @@ RUN apt-get update \
         lsb-release \
 # Install nano and mc for making navigating the container easier
         nano mc \
-# Download the DEB installer file    
+# Download the DEB installer file
+    && echo Downloading ${download_version} ${download_url} \
     && wget -nv -O ./vms_server.deb ${download_url} \
 # Why are the timers are being removed in the Nx docker file?
     && find /etc/systemd -name '*.timer' | xargs rm -v \

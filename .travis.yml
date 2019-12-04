@@ -12,7 +12,7 @@ env:
 before_script:
   - docker pull "${IMAGE_NAME}" || true
 script:
-  - echo ${IMAGE_NAME} ${IMAGE_VERSION} ${download_version} ${download_url}
+  - echo Building ${IMAGE_NAME} ${IMAGE_VERSION} ${download_version} ${download_url}
   - docker build --pull --cache-from ${IMAGE_NAME}
     --tag ${IMAGE_NAME}:latest
     --tag ${IMAGE_NAME}:${IMAGE_VERSION}
@@ -26,6 +26,7 @@ before_deploy:
 deploy:
   provider: script
   script: 
+    - echo Pushing ${IMAGE_NAME}:latest ${IMAGE_NAME}:${IMAGE_VERSION}
     - docker push ${IMAGE_NAME}:latest
     - docker push ${IMAGE_NAME}:${IMAGE_VERSION}
   on:
