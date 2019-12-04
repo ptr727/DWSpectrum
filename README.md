@@ -10,8 +10,9 @@ An [alternate version](https://github.com/ptr727/DWSpectrum-LSIO) is based on a 
 
 ## Build Status
 
-![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/ptr727/dwspectrum)
-![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/ptr727/dwspectrum)  
+![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/ptr727/dwspectrum?logo=docker)
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/ptr727/dwspectrum?logo=docker)
+![Travis Automated Build](https://img.shields.io/travis/com/ptr727/dwspectrum?logo=travis)  
 Pull from [Docker Hub](https://hub.docker.com/r/ptr727/dwspectrum)  
 Code at [GitHub](https://github.com/ptr727/DWSpectrum)
 
