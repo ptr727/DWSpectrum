@@ -6,26 +6,27 @@ env:
   global:
     - IMAGE_NAME=ptr727/dwspectrum
     - IMAGE_VERSION=${TRAVIS_COMMIT}
-    - download_url="http://updates.networkoptix.com/digitalwatchdog/29990/linux/dwspectrum-server-4.0.0.29990-linux64.deb"
-    - download_version="4.10.0.29990"
+    - download_url=http://updates.networkoptix.com/digitalwatchdog/29990/linux/dwspectrum-server-4.0.0.29990-linux64.deb
+    - download_version=4.10.0.29990
 
 before_script:
   - docker pull "${IMAGE_NAME}" || true
 script:
-  - docker build --pull --cache-from "${IMAGE_NAME}"
-    --tag "${IMAGE_NAME}:latest"
-    --tag "${IMAGE_NAME}:${IMAGE_VERSION}"
+  - echo ${IMAGE_NAME} ${IMAGE_VERSION} ${download_version} ${download_url}
+  - docker build --pull --cache-from ${IMAGE_NAME}
+    --tag ${IMAGE_NAME}:latest
+    --tag ${IMAGE_NAME}:${IMAGE_VERSION}
     --build-arg download_url=${download_url}
     --build-arg download_version=${download_version} .
 after_script:
   - docker images
 
 before_deploy:
-  - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
+  - docker login -u ${REGISTRY_USER} -p ${REGISTRY_PASS}
 deploy:
   provider: script
   script: 
-    - docker push "${IMAGE_NAME}:latest"
-    - docker push "${IMAGE_NAME}:${IMAGE_VERSION}"
+    - docker push ${IMAGE_NAME}:latest
+    - docker push ${IMAGE_NAME}:${IMAGE_VERSION}
   on:
     branch: master
