@@ -6,8 +6,8 @@ FROM ubuntu:latest
 # Latest VMS versions are listed here:
 # https://dwspectrum.digital-watchdog.com/download/linux
 # https://nxvms.com/download/linux
-ARG download_url="http://updates.networkoptix.com/digitalwatchdog/29990/linux/dwspectrum-server-4.0.0.29990-linux64.deb"
-ARG download_version="4.0.0.29990"
+ARG DOWNLOAD_URL="http://updates.networkoptix.com/digitalwatchdog/29990/linux/dwspectrum-server-4.0.0.29990-linux64.deb"
+ARG DOWNLOAD_VERSION="4.0.0.29990"
 
 # systemd needs to know we are running in docker
 ENV container=docker \
@@ -17,8 +17,8 @@ ENV container=docker \
     COMPANY_NAME="digitalwatchdog"
 
 LABEL name="DWSpectrum" \
-    version=${download_version} \
-    download=${download_url} \
+    version=${DOWNLOAD_VERSION} \
+    download=${DOWNLOAD_URL} \
     description="DW Spectrum IPVMS Docker" \
     maintainer="Pieter Viljoen <ptr727@users.noreply.github.com>"
 
@@ -38,8 +38,7 @@ RUN apt-get update \
 # Install nano and mc for making navigating the container easier
         nano mc \
 # Download the DEB installer file
-    && echo Downloading ${download_version} ${download_url} \
-    && wget -nv -O ./vms_server.deb ${download_url} \
+    && wget -nv -O ./vms_server.deb ${DOWNLOAD_URL} \
 # Why are the timers are being removed in the Nx docker file?
     && find /etc/systemd -name '*.timer' | xargs rm -v \
 # Set the systemd run target
@@ -64,4 +63,4 @@ EXPOSE 7001
 # Create mapped volumes
 # The VMS appears to pick a random volume for media storage
 # We are not currently using /config
-VOLUME /media /opt/digitalwatchdog/mediaserver/var /opt/digitalwatchdog/mediaserver/etc
+VOLUME /media /opt/${COMPANY_NAME}/mediaserver/var /opt/${COMPANY_NAME}/mediaserver/etc
