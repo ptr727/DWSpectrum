@@ -9,21 +9,33 @@ resources:
 - repo: self
 
 variables:
-  tag: '$(Build.BuildId)'
+  tag: 'devops-$(Build.BuildId)'
 
 stages:
 - stage: Build
   displayName: Build image
   jobs:  
   - job: Build
-    displayName: Build
+    displayName: Build image
     pool:
       vmImage: 'ubuntu-latest'
     steps:
     - task: Docker@2
-      displayName: Build an image
+      displayName: Build image
       inputs:
+        repository: $(imageName)
         command: build
         dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
         tags: |
           $(tag)
+          devops-latest
+    - task: Docker@2
+      displayName: Push image
+      inputs:
+        containerRegistry: |
+          $(dockerHub)
+        repository: $(imageName)
+        command: push
+        tags: |
+          $(tag)
+          devops-latest
