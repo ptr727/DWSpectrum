@@ -5,7 +5,7 @@ services:
 env:
   global:
     - IMAGE_NAME=ptr727/dwspectrum
-    - IMAGE_VERSION=${TRAVIS_COMMIT}
+    - IMAGE_VERSION=${TRAVIS_BUILD_ID}
     - DOWNLOAD_URL=http://updates.networkoptix.com/digitalwatchdog/29990/linux/dwspectrum-server-4.0.0.29990-linux64.deb
     - DOWNLOAD_VERSION=4.0.0.29990
 
@@ -14,7 +14,7 @@ before_script:
 script:
   - docker build --pull --cache-from ${IMAGE_NAME}
     --tag ${IMAGE_NAME}:travis-latest
-    --tag ${IMAGE_NAME}:${IMAGE_VERSION}
+    --tag ${IMAGE_NAME}:travis-${IMAGE_VERSION}
     --build-arg DOWNLOAD_URL=${DOWNLOAD_URL}
     --build-arg DOWNLOAD_VERSION=${DOWNLOAD_VERSION} .
 after_script:
@@ -24,6 +24,6 @@ before_deploy:
   - docker login -u ${REGISTRY_USER} -p ${REGISTRY_PASS}
 deploy:
   provider: script
-  script: docker push ${IMAGE_NAME}:travis-latest && docker push ${IMAGE_NAME}:${IMAGE_VERSION}
+  script: docker push ${IMAGE_NAME}:travis-latest && docker push ${IMAGE_NAME}:travis-${IMAGE_VERSION}
   on:
     branch: master
