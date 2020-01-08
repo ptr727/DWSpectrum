@@ -10,9 +10,7 @@ An [alternate version](https://github.com/ptr727/DWSpectrum-LSIO) is based on a 
 
 ## Build Status
 
-![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/ptr727/dwspectrum?logo=docker)
-![Travis Automated Build](https://img.shields.io/travis/com/ptr727/dwspectrum?logo=travis)
-![Travis Automated Build](https://img.shields.io/azure-devops/build/pieterv/46a5d3f6-930b-4b11-a658-8636afbd4f37/24?logo=azure-pipelines)  
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/ptr727/dwspectrum?logo=docker)   
 Pull from [Docker Hub](https://hub.docker.com/r/ptr727/dwspectrum)  
 Code at [GitHub](https://github.com/ptr727/DWSpectrum)
 
@@ -62,6 +60,7 @@ services:
 
 ## Notes
 
+- This systemd based container does work in Docker Desktop for Windows, but fails to run in Unraid and Ubuntu Server.
 - The camera licenses are tied to hardware information, and this does not work well in container environments where the hardware may change.  
 - The NxWitness docker setup uses systemd, which as far as I researched, and I am no expert in this specific field, is [possible](https://developers.redhat.com/blog/2019/04/24/how-to-run-systemd-in-a-container/), but not recommended.
 
