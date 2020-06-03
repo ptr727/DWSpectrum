@@ -3,23 +3,15 @@ version: "3.7"
 services:
   dwspectrum:
     image: dwspectrum
-    container_name: dwspectrum-test-container
-    hostname: dwspectrum-test-host
-    domainname: foo.net
-    #user: 1000:1000
+    container_name: dwspectrum-test
     build: .
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - ./.mount/media:/media
-      - ./.mount/config/var/:/opt/digitalwatchdog/mediaserver/var
-      - ./.mount/config/etc/:/opt/digitalwatchdog/mediaserver/etc
-    tmpfs:
-      - /run
-      - /run/lock
-      - /tmp
     restart: unless-stopped
-    network_mode: host
-    # https://miniwebtool.com/mac-address-generator/
-    #mac_address: b7-48-d5-a6-d1-99
-    #ports:
-    #  - 7001:7001
+    environment:
+      - TZ=Americas/Los_Angeles
+    volumes:
+      - ./.mount/config:/config
+      - ./.mount/media:/media
+      - ./.mount/archive:/archive
+    network_mode: bridge
+    ports:
+      - 7001:7001
